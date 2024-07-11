@@ -22,8 +22,8 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Добавление комментария
-        async function addComment() {
+        // Определение функций в глобальном контексте
+        window.addComment = async function addComment() {
             const commentInput = document.getElementById('comment').value;
             if (commentInput.trim() === "") {
                 alert("Комментарий не может быть пустым");
@@ -41,8 +41,7 @@
             }
         }
 
-        // Загрузка комментариев
-        async function loadComments() {
+        window.loadComments = async function loadComments() {
             const commentsDiv = document.getElementById('comments');
             commentsDiv.innerHTML = '';
             const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
