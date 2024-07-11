@@ -1,4 +1,3 @@
-// loadComments.js
 let commentsPerPage = 10;
 let currentPage = 1;
 let totalComments = 0;
