@@ -15,7 +15,9 @@ async function loadComments(page = 1) {
     const end = start + commentsPerPage;
 
     const comments = {};
-    querySnapshot.docs.slice(start, end).forEach((doc) => {
+    const docs = querySnapshot.docs.slice(start, end);
+    
+    docs.forEach((doc) => {
         const data = doc.data();
         const comment = document.createElement('div');
         comment.classList.add('comment');
@@ -65,4 +67,4 @@ function renderPagination(totalPages) {
     }
 }
 
-window.onload = loadComments;
+window.onload = () => loadComments();
