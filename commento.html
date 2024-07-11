@@ -50,9 +50,11 @@
 <body>
     <div id="comments"></div>
     <div id="replyForm" class="reply-form">
+        <h3>Добавить отзыв</h3>
         <input type="text" id="name" placeholder="Представьтесь, пожалуйста">
+        <input type="text" id="email" placeholder="Электронная почта (не будет опубликована)">
         <input type="hidden" id="replyTo">
-        <textarea id="comment" placeholder="Оставьте свой комментарий"></textarea>
+        <textarea id="comment" placeholder="Оставьте свой отзыв"></textarea>
         <button onclick="addComment(document.getElementById('replyTo').value)">Отправить</button>
     </div>
 </body>
