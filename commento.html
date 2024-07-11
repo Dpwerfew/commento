@@ -6,12 +6,37 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
         .comment {
             border-bottom: 1px solid #ccc;
             padding: 10px 0;
+            margin-bottom: 10px;
+        }
+        .comment strong {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .comment em {
+            color: #777;
+            font-size: 0.9em;
         }
         .reply {
             margin-left: 20px;
+            border-left: 2px solid #ccc;
+            padding-left: 10px;
+        }
+        .reply-button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .reply-button:hover {
+            background-color: #0056b3;
         }
     </style>
     <script>
@@ -56,17 +81,18 @@
                 const data = doc.data();
                 const comment = document.createElement('div');
                 comment.classList.add('comment');
+                if (data.parentId) {
+                    comment.classList.add('reply');
+                }
                 comment.innerHTML = `<strong>${data.name}</strong> <em>${new Date(data.timestamp.seconds * 1000).toLocaleString()}</em><p>${data.text}</p>`;
                 const replyButton = document.createElement('button');
                 replyButton.innerText = "Ответить";
+                replyButton.classList.add('reply-button');
                 replyButton.onclick = () => {
                     document.getElementById('comment').value = '';
                     document.getElementById('replyTo').value = doc.id;
                 };
                 comment.appendChild(replyButton);
-                if (data.parentId) {
-                    comment.classList.add('reply');
-                }
                 commentsDiv.appendChild(comment);
             });
         }
