@@ -3,59 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Комментарии</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
     <script src="firebaseConfig.js"></script>
     <script src="loadComments.js"></script>
     <script src="addComment.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .comment {
-            border-bottom: 1px solid #ccc;
-            padding: 10px 0;
-            margin-bottom: 10px;
-        }
-        .comment strong {
-            display: block;
-            font-size: 1.1em;
-            margin-bottom: 5px;
-        }
-        .comment em {
-            color: #777;
-            font-size: 0.9em;
-        }
-        .reply {
-            margin-left: 20px;
-            border-left: 2px solid #ccc;
-            padding-left: 10px;
-        }
-        .reply-button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        .reply-button:hover {
-            background-color: #0056b3;
-        }
-        .reply-form {
-            display: none;
-            margin-top: 10px;
-        }
-    </style>
 </head>
 <body>
     <div id="comments"></div>
-    <div id="replyForm" class="reply-form">
-        <h3>Добавить отзыв</h3>
-        <input type="text" id="name" placeholder="Представьтесь, пожалуйста">
-        <input type="text" id="email" placeholder="Электронная почта (не будет опубликована)">
-        <input type="hidden" id="replyTo">
-        <textarea id="comment" placeholder="Оставьте свой отзыв"></textarea>
-        <button onclick="addComment(document.getElementById('replyTo').value)">Отправить</button>
+    <!-- Модальная форма -->
+    <div id="replyModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Добавить отзыв</h3>
+            <input type="text" id="name" placeholder="Представьтесь, пожалуйста">
+            <input type="text" id="email" placeholder="Электронная почта (не будет опубликована)">
+            <input type="hidden" id="replyTo">
+            <textarea id="comment" placeholder="Оставьте свой отзыв"></textarea>
+            <button onclick="addComment(document.getElementById('replyTo').value)">Отправить</button>
+        </div>
     </div>
 </body>
 </html>
