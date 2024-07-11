@@ -1,11 +1,21 @@
 // loadComments.js
-async function loadComments() {
+let commentsPerPage = 10;
+let currentPage = 1;
+let totalComments = 0;
+
+async function loadComments(page = 1) {
+    currentPage = page;
     const commentsDiv = document.getElementById('comments');
     commentsDiv.innerHTML = '';
     const querySnapshot = await db.collection("comments").orderBy("timestamp", "asc").get();
 
+    totalComments = querySnapshot.size;
+    const totalPages = Math.ceil(totalComments / commentsPerPage);
+    const start = (currentPage - 1) * commentsPerPage;
+    const end = start + commentsPerPage;
+
     const comments = {};
-    querySnapshot.forEach((doc) => {
+    querySnapshot.docs.slice(start, end).forEach((doc) => {
         const data = doc.data();
         const comment = document.createElement('div');
         comment.classList.add('comment');
@@ -35,6 +45,24 @@ async function loadComments() {
             commentsDiv.appendChild(comment.element);
         }
     });
+
+    renderPagination(totalPages);
+}
+
+function renderPagination(totalPages) {
+    const paginationDiv = document.getElementById('pagination');
+    paginationDiv.innerHTML = '';
+    
+    for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.innerText = i;
+        pageButton.classList.add('page-button');
+        if (i === currentPage) {
+            pageButton.classList.add('active');
+        }
+        pageButton.onclick = () => loadComments(i);
+        paginationDiv.appendChild(pageButton);
+    }
 }
 
 window.onload = loadComments;
