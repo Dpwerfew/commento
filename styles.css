@@ -15,6 +15,7 @@ body {
     padding: 20px;
     background-color: #fff;
     margin: 20px;
+    margin-right: 20px; /* Добавлен отступ справа */
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -26,6 +27,7 @@ body {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-right: 20px; /* Добавлен отступ справа */
 }
 
 .comment strong {
