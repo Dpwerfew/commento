@@ -2,53 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Комментарии</title>
     <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="comments-container"></div>
+    <div class="comment-form">
+        <h2>Добавить новый отзыв</h2>
+        <label for="name">Представьтесь, пожалуйста:</label>
+        <input type="text" id="name" placeholder="Ваше имя">
+        <label for="comment">Оставьте свой отзыв:</label>
+        <textarea id="comment" placeholder="Ваш комментарий"></textarea>
+        <button id="submit-comment" onclick="addComment()">Отправить</button>
+    </div>
+
+    <!-- Модальное окно для ответа -->
+    <div id="replyModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Добавить ответ</h2>
+            <input type="hidden" id="replyTo">
+            <label for="replyName">Представьтесь, пожалуйста:</label>
+            <input type="text" id="replyName" placeholder="Ваше имя">
+            <label for="replyComment">Оставьте свой ответ:</label>
+            <textarea id="replyComment" placeholder="Ваш ответ"></textarea>
+            <button onclick="addComment(document.getElementById('replyTo').value)">Отправить</button>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
     <script src="firebaseConfig.js"></script>
     <script src="loadComments.js"></script>
     <script src="addComment.js"></script>
-</head>
-<body>
-    <div id="comments"></div>
-    <div id="pagination"></div>
-    <div id="newCommentForm">
-        <h3>Добавить новый отзыв</h3>
-        <form id="newCommentFormContent">
-            <div class="form-group">
-                <label for="newName">Представьтесь, пожалуйста:</label>
-                <input type="text" id="newName" placeholder="Ваше имя">
-            </div>
-            <div class="form-group">
-                <label for="newComment">Оставьте свой отзыв:</label>
-                <textarea id="newComment" placeholder="Ваш комментарий"></textarea>
-            </div>
-            <button type="button" onclick="addComment()">Отправить</button>
-        </form>
-    </div>
-    <!-- Модальная форма -->
-    <div id="replyModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Добавить отзыв</h3>
-            <form id="replyForm">
-                <div class="form-group">
-                    <label for="name">Представьтесь, пожалуйста:</label>
-                    <input type="text" id="name" placeholder="Ваше имя">
-                </div>
-                <div class="form-group">
-                    <label for="email">Электронная почта (не будет опубликована):</label>
-                    <input type="text" id="email" placeholder="Электронная почта">
-                </div>
-                <div class="form-group">
-                    <label for="comment">Оставьте свой отзыв:</label>
-                    <textarea id="comment" placeholder="Ваш комментарий"></textarea>
-                </div>
-                <input type="hidden" id="replyTo">
-                <button type="button" onclick="addComment(document.getElementById('replyTo').value)">Отправить</button>
-            </form>
-        </div>
-    </div>
 </body>
 </html>
