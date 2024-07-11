@@ -16,7 +16,7 @@ async function loadComments(page = 1) {
         const totalPages = Math.ceil(totalComments / commentsPerPage);
         console.log(`Total pages: ${totalPages}`);
         const start = (currentPage - 1) * commentsPerPage;
-        const end = start + commentsPerPage;
+        const end = Math.min(start + commentsPerPage, totalComments);
         console.log(`Loading comments from ${start} to ${end}`);
 
         const comments = {};
