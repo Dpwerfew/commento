@@ -3,8 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Комментарии</title>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .comment {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            margin-bottom: 10px;
+        }
+        .comment strong {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .comment em {
+            color: #777;
+            font-size: 0.9em;
+        }
+        .reply {
+            margin-left: 20px;
+            border-left: 2px solid #ccc;
+            padding-left: 10px;
+        }
+        .reply-button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .reply-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
     <script>
         // Firebase конфигурация
         const firebaseConfig = {
@@ -20,9 +54,9 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Добавление комментария
-        async function addComment() {
+        async function addComment(parentId = null) {
             const commentInput = document.getElementById('comment').value;
+            const nameInput = document.getElementById('name').value || "Аноним";
             if (commentInput.trim() === "") {
                 alert("Комментарий не может быть пустым");
                 return;
@@ -30,7 +64,9 @@
             try {
                 await db.collection("comments").add({
                     text: commentInput,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    name: nameInput,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    parentId: parentId
                 });
                 document.getElementById('comment').value = '';
                 loadComments();
@@ -39,25 +75,38 @@
             }
         }
 
-        // Загрузка комментариев
         async function loadComments() {
             const commentsDiv = document.getElementById('comments');
             commentsDiv.innerHTML = '';
             const querySnapshot = await db.collection("comments").orderBy("timestamp", "desc").get();
             querySnapshot.forEach((doc) => {
+                const data = doc.data();
                 const comment = document.createElement('div');
-                comment.textContent = doc.data().text;
+                comment.classList.add('comment');
+                if (data.parentId) {
+                    comment.classList.add('reply');
+                }
+                comment.innerHTML = `<strong>${data.name}</strong> <em>${new Date(data.timestamp.seconds * 1000).toLocaleString()}</em><p>${data.text}</p>`;
+                const replyButton = document.createElement('button');
+                replyButton.innerText = "Ответить";
+                replyButton.classList.add('reply-button');
+                replyButton.onclick = () => {
+                    document.getElementById('comment').value = '';
+                    document.getElementById('replyTo').value = doc.id;
+                };
+                comment.appendChild(replyButton);
                 commentsDiv.appendChild(comment);
             });
         }
 
-        // Загрузка комментариев при загрузке страницы
         window.onload = loadComments;
     </script>
 </head>
 <body>
     <div id="comments"></div>
-    <input type="text" id="comment" placeholder="Ваш комментарий">
-    <button onclick="addComment()">Добавить комментарий</button>
+    <input type="text" id="name" placeholder="Ваше имя">
+    <input type="hidden" id="replyTo">
+    <textarea id="comment" placeholder="Ваш комментарий"></textarea>
+    <button onclick="addComment(document.getElementById('replyTo').value)">Добавить комментарий</button>
 </body>
 </html>
