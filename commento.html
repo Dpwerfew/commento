@@ -1,70 +1,54 @@
-// loadComments.js
-let commentsPerPage = 10;
-let currentPage = 1;
-let totalComments = 0;
-
-async function loadComments(page = 1) {
-    currentPage = page;
-    const commentsDiv = document.getElementById('comments');
-    commentsDiv.innerHTML = '';
-    const querySnapshot = await db.collection("comments").orderBy("timestamp", "asc").get();
-
-    totalComments = querySnapshot.size;
-    const totalPages = Math.ceil(totalComments / commentsPerPage);
-    const start = (currentPage - 1) * commentsPerPage;
-    const end = Math.min(start + commentsPerPage, totalComments);
-
-    const comments = {};
-    querySnapshot.docs.slice(start, end).forEach((doc) => {
-        const data = doc.data();
-        const comment = document.createElement('div');
-        comment.classList.add('comment');
-        comment.setAttribute('data-id', doc.id);
-        comment.innerHTML = `<strong>${data.name}</strong> <em>${new Date(data.timestamp.seconds * 1000).toLocaleString()}</em><p>${data.text}</p>`;
-        const replyButton = document.createElement('button');
-        replyButton.innerText = "Ответить";
-        replyButton.classList.add('reply-button');
-        replyButton.onclick = () => showReplyForm(doc.id);
-        comment.appendChild(replyButton);
-
-        comments[doc.id] = { element: comment, parentId: data.parentId };
-    });
-
-    // Build the comments tree
-    Object.keys(comments).forEach(id => {
-        const comment = comments[id];
-        if (comment.parentId) {
-            if (comments[comment.parentId]) {
-                const parentComment = comments[comment.parentId].element;
-                const repliesDiv = parentComment.querySelector('.replies') || document.createElement('div');
-                repliesDiv.classList.add('replies');
-                repliesDiv.appendChild(comment.element);
-                parentComment.appendChild(repliesDiv);
-            }
-        } else {
-            commentsDiv.appendChild(comment.element);
-        }
-    });
-
-    renderPagination(totalPages);
-}
-
-function renderPagination(totalPages) {
-    const paginationDiv = document.getElementById('pagination');
-    paginationDiv.innerHTML = '';
-    
-    for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.innerText = i;
-        pageButton.classList.add('page-button');
-        if (i === currentPage) {
-            pageButton.classList.add('active');
-        }
-        pageButton.onclick = () => loadComments(i);
-        paginationDiv.appendChild(pageButton);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    loadComments();
-});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Комментарии</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="firebaseConfig.js"></script>
+    <script src="loadComments.js"></script>
+    <script src="addComment.js"></script>
+</head>
+<body>
+    <div id="comments"></div>
+    <div id="pagination"></div>
+    <div id="newCommentForm">
+        <h3>Добавить новый отзыв</h3>
+        <form id="newCommentFormContent">
+            <div class="form-group">
+                <label for="newName">Представьтесь, пожалуйста:</label>
+                <input type="text" id="newName" placeholder="Ваше имя">
+            </div>
+            <div class="form-group">
+                <label for="newComment">Оставьте свой отзыв:</label>
+                <textarea id="newComment" placeholder="Ваш комментарий"></textarea>
+            </div>
+            <button type="button" onclick="addComment()">Отправить</button>
+        </form>
+    </div>
+    <!-- Модальная форма -->
+    <div id="replyModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Добавить отзыв</h3>
+            <form id="replyForm">
+                <div class="form-group">
+                    <label for="name">Представьтесь, пожалуйста:</label>
+                    <input type="text" id="name" placeholder="Ваше имя">
+                </div>
+                <div class="form-group">
+                    <label for="email">Электронная почта (не будет опубликована):</label>
+                    <input type="text" id="email" placeholder="Электронная почта">
+                </div>
+                <div class="form-group">
+                    <label for="comment">Оставьте свой отзыв:</label>
+                    <textarea id="comment" placeholder="Ваш комментарий"></textarea>
+                </div>
+                <input type="hidden" id="replyTo">
+                <button type="button" onclick="addComment(document.getElementById('replyTo').value)">Отправить</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
