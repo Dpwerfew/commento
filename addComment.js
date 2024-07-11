@@ -1,4 +1,19 @@
 // addComment.js
+const modal = document.getElementById("replyModal");
+const span = document.getElementsByClassName("close")[0];
+
+// Закрыть модальную форму при клике на <span> (x)
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// Закрыть модальную форму при клике вне ее
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
 async function addComment(parentId = null) {
     const commentInput = document.getElementById('comment').value;
     const nameInput = document.getElementById('name').value || "Аноним";
@@ -16,7 +31,7 @@ async function addComment(parentId = null) {
         document.getElementById('comment').value = '';
         document.getElementById('name').value = '';
         document.getElementById('replyTo').value = '';
-        document.getElementById('replyForm').style.display = 'none';
+        modal.style.display = "none";
         loadComments();
     } catch (e) {
         console.error("Ошибка добавления комментария: ", e);
@@ -25,8 +40,6 @@ async function addComment(parentId = null) {
 
 function showReplyForm(parentId) {
     const replyForm = document.getElementById('replyForm');
-    replyForm.style.display = 'block';
     document.getElementById('replyTo').value = parentId;
-    // Прокручиваем страницу к форме ответа
-    replyForm.scrollIntoView({ behavior: 'smooth' });
+    modal.style.display = "block";
 }
