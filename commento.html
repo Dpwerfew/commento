@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Комментарии</title>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -40,6 +40,7 @@
         }
     </style>
     <script>
+        // Firebase конфигурация
         const firebaseConfig = {
             apiKey: "AIzaSyAlzdvrUAoQ5_7tX9g8Nc_a0Zao62CtCEs",
             authDomain: "comments-555d2.firebaseapp.com",
@@ -49,6 +50,7 @@
             appId: "1:206294213643:web:5d3f10dedbaf7cf9df930e"
         };
 
+        // Инициализация Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
