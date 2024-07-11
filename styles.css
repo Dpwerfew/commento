@@ -7,13 +7,16 @@ body {
     background-color: #f4f4f4;
 }
 
+#comments {
+    padding: 20px;
+}
+
 .comment {
     border-bottom: 1px solid #ccc;
-    padding: 10px 0;
+    padding: 10px 20px;
     margin-bottom: 10px;
     background-color: white;
     border-radius: 5px;
-    padding: 15px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -42,6 +45,7 @@ body {
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.3s;
+    margin-left: 20px;
 }
 
 .reply-button:hover {
