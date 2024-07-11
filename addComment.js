@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('name').value = '';
             document.getElementById('replyTo').value = '';
             modal.style.display = "none";
+            // Загрузить комментарии после добавления нового
             loadComments();
         } catch (e) {
             console.error("Ошибка добавления комментария: ", e);
