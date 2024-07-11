@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     async function addComment(parentId = null) {
-        const commentInput = document.getElementById('comment').value;
-        const nameInput = document.getElementById('name').value || "Аноним";
+        const commentInput = parentId ? document.getElementById('replyComment').value : document.getElementById('comment').value;
+        const nameInput = parentId ? document.getElementById('replyName').value : document.getElementById('name').value || "Аноним";
         if (commentInput.trim() === "") {
             alert("Комментарий не может быть пустым");
             return;
@@ -28,10 +28,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 parentId: parentId
             });
-            document.getElementById('comment').value = '';
-            document.getElementById('name').value = '';
-            document.getElementById('replyTo').value = '';
-            modal.style.display = "none";
+            if (parentId) {
+                document.getElementById('replyComment').value = '';
+                document.getElementById('replyName').value = '';
+                modal.style.display = "none";
+            } else {
+                document.getElementById('comment').value = '';
+                document.getElementById('name').value = '';
+            }
             // Загрузить комментарии после добавления нового
             loadComments(currentPage); // Ensure you load the correct page
         } catch (e) {
