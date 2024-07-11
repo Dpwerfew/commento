@@ -1,39 +1,51 @@
-document.addEventListener("DOMContentLoaded", async function() {
-    await loadComments();
-});
+// loadComments.js
+document.addEventListener("DOMContentLoaded", function () {
+    const db = firebase.firestore();
 
-async function loadComments() {
-    const commentsContainer = document.getElementById("comments-container");
-    commentsContainer.innerHTML = ""; // Clear existing comments
+    async function loadComments(page = 1, commentsPerPage = 10) {
+        try {
+            const commentsContainer = document.getElementById('comments-container');
+            commentsContainer.innerHTML = '';
 
-    try {
-        const snapshot = await db.collection("comments").orderBy("timestamp", "asc").get();
-        const comments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        
-        comments.forEach(comment => {
-            if (!comment.parentId) {
-                displayComment(comment, commentsContainer);
-            }
-        });
-    } catch (e) {
-        console.error("Ошибка загрузки комментариев: ", e);
+            const snapshot = await db.collection('comments').orderBy('timestamp').get();
+            const totalComments = snapshot.docs.length;
+            const totalPages = Math.ceil(totalComments / commentsPerPage);
+
+            const start = (page - 1) * commentsPerPage;
+            const end = start + commentsPerPage;
+
+            const comments = snapshot.docs.slice(start, end);
+
+            comments.forEach(doc => {
+                const comment = doc.data();
+                const commentElement = document.createElement('div');
+                commentElement.classList.add('comment');
+                commentElement.innerHTML = `
+                    <p><strong>${comment.name || 'Аноним'}</strong> ${new Date(comment.timestamp.toDate()).toLocaleString()}</p>
+                    <p>${comment.text}</p>
+                    <button onclick="showReplyForm('${doc.id}')">Ответить</button>
+                `;
+                commentsContainer.appendChild(commentElement);
+            });
+
+            renderPagination(page, totalPages);
+        } catch (e) {
+            console.error("Ошибка загрузки комментариев: ", e);
+        }
     }
-}
 
-function displayComment(comment, container) {
-    const commentElement = document.createElement("div");
-    commentElement.className = "comment";
-    commentElement.innerHTML = `
-        <p><strong>${comment.name}</strong> <em>${new Date(comment.timestamp.seconds * 1000).toLocaleString()}</em></p>
-        <p>${comment.text}</p>
-        <button onclick="showReplyForm('${comment.id}')">Ответить</button>
-        <div class="replies"></div>
-    `;
-    container.appendChild(commentElement);
+    function renderPagination(currentPage, totalPages) {
+        const paginationContainer = document.createElement('div');
+        paginationContainer.classList.add('pagination');
 
-    const repliesContainer = commentElement.querySelector(".replies");
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.innerText = i;
+            pageButton.onclick = () => loadComments(i);
+            if (i === currentPage) {
+                pageButton.classList.add('active');
+            }
+            paginationContainer.appendChild(pageButton);
+        }
 
-    const replies = db.collection("comments").where("parentId", "==", comment.id).orderBy("timestamp", "asc").get();
-    replies.then(snapshot => {
-        snapshot.docs.forEach(doc => {
-            displayComment({ id: doc.id, ...doc.data() }, replies
+        document.body.appendChild(paginati
