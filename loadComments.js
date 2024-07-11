@@ -2,7 +2,7 @@
 async function loadComments() {
     const commentsDiv = document.getElementById('comments');
     commentsDiv.innerHTML = '';
-    const querySnapshot = await db.collection("comments").orderBy("timestamp", "desc").get();
+    const querySnapshot = await db.collection("comments").orderBy("timestamp", "asc").get();
 
     const comments = {};
     querySnapshot.forEach((doc) => {
