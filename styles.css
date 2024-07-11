@@ -1,23 +1,69 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.comment-form, .modal-content {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+}
+
+.comment-form h2, .modal-content h2 {
+    margin-top: 0;
+}
+
+.comment {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.comment p {
+    margin: 0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background: #007bff;
+    color: #fff;
+}
+
 .modal {
-    display: none; /* Скрыть модальное окно по умолчанию */
-    position: fixed; /* Оставить модальное окно на одном месте */
-    z-index: 1; /* Сидеть на вершине */
-    padding-top: 60px; /* Расстояние от верхнего края страницы до модального окна */
+    display: none;
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; /* Полная ширина */
-    height: 100%; /* Полная высота */
-    overflow: auto; /* Включить прокрутку, если необходимо */
-    background-color: rgb(0,0,0); /* Fallback цвет */
-    background-color: rgba(0,0,0,0.4); /* Черный с непрозрачностью */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
 }
 
 .modal-content {
     background-color: #fefefe;
-    margin: 5% auto; /* 15% сверху и центрировано */
+    margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Могут быть отрегулированы по необходимости */
+    width: 80%;
 }
 
 .close {
@@ -33,11 +79,3 @@
     text-decoration: none;
     cursor: pointer;
 }
-
-.comment-form {
-    margin-top: 20px;
-}
-
-.comment {
-    border: 1px solid #ccc;
-    padding:
