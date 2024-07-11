@@ -2,11 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Комментарии</title>
-    <script defer src="https://cdn.commento.io/js/commento.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
 </head>
 <body>
-    <div id="commento"></div>
+    <div id="comments"></div>
+    <input type="text" id="comment" placeholder="Ваш комментарий">
+    <button onclick="addComment()">Добавить комментарий</button>
+
+    <script>
+        // Firebase конфигурация
+        const firebaseConfig = {
+            apiKey: "AIzaSyAlzdvrUAoQ5_7tX9g8Nc_a0Zao62CtCEs",
+            authDomain: "comments-555d2.firebaseapp.com",
+            projectId: "comments-555d2",
+            storageBucket: "comments-555d2.appspot.com",
+            messagingSenderId: "206294213643",
+            appId: "1:206294213643:web:5d3f10dedbaf7cf9df930e"
+        };
+
+        // Инициализация Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Добавление комментария
+        function addComment() {
+            const comment = document.getElementById('comment').value;
+            db.collection("comments").add({
+                text: comment,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                document.getElementById('comment').value = '';
+                loadComments();
+            })
+            .catch(error => {
+                console.error("Ошибка добавления комментария: ", error);
+            });
+        }
+
+        // Загрузка комментариев
+        function loadComments() {
+            db.collection("comments").orderBy("timestamp", "desc").get().then(querySnapshot => {
+                const comments = document.getElementById('comments');
+                comments.innerHTML = '';
+                querySnapshot.forEach(doc => {
+                    const comment = document.createElement('div');
+                    comment.textContent = doc.data().text;
+                    comments.appendChild(comment);
+                });
+            });
+        }
+
+        loadComments();
+    </script>
 </body>
 </html>
