@@ -5,6 +5,9 @@
     <title>Комментарии</title>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="firebaseConfig.js"></script>
+    <script src="loadComments.js"></script>
+    <script src="addComment.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,75 +41,19 @@
         .reply-button:hover {
             background-color: #0056b3;
         }
+        .reply-form {
+            display: none;
+            margin-top: 10px;
+        }
     </style>
-    <script>
-        // Firebase конфигурация
-        const firebaseConfig = {
-            apiKey: "AIzaSyAlzdvrUAoQ5_7tX9g8Nc_a0Zao62CtCEs",
-            authDomain: "comments-555d2.firebaseapp.com",
-            projectId: "comments-555d2",
-            storageBucket: "comments-555d2.appspot.com",
-            messagingSenderId: "206294213643",
-            appId: "1:206294213643:web:5d3f10dedbaf7cf9df930e"
-        };
-
-        // Инициализация Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        async function addComment(parentId = null) {
-            const commentInput = document.getElementById('comment').value;
-            const nameInput = document.getElementById('name').value || "Аноним";
-            if (commentInput.trim() === "") {
-                alert("Комментарий не может быть пустым");
-                return;
-            }
-            try {
-                await db.collection("comments").add({
-                    text: commentInput,
-                    name: nameInput,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    parentId: parentId
-                });
-                document.getElementById('comment').value = '';
-                loadComments();
-            } catch (e) {
-                console.error("Ошибка добавления комментария: ", e);
-            }
-        }
-
-        async function loadComments() {
-            const commentsDiv = document.getElementById('comments');
-            commentsDiv.innerHTML = '';
-            const querySnapshot = await db.collection("comments").orderBy("timestamp", "desc").get();
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                const comment = document.createElement('div');
-                comment.classList.add('comment');
-                if (data.parentId) {
-                    comment.classList.add('reply');
-                }
-                comment.innerHTML = `<strong>${data.name}</strong> <em>${new Date(data.timestamp.seconds * 1000).toLocaleString()}</em><p>${data.text}</p>`;
-                const replyButton = document.createElement('button');
-                replyButton.innerText = "Ответить";
-                replyButton.classList.add('reply-button');
-                replyButton.onclick = () => {
-                    document.getElementById('comment').value = '';
-                    document.getElementById('replyTo').value = doc.id;
-                };
-                comment.appendChild(replyButton);
-                commentsDiv.appendChild(comment);
-            });
-        }
-
-        window.onload = loadComments;
-    </script>
 </head>
 <body>
     <div id="comments"></div>
-    <input type="text" id="name" placeholder="Ваше имя">
-    <input type="hidden" id="replyTo">
-    <textarea id="comment" placeholder="Ваш комментарий"></textarea>
-    <button onclick="addComment(document.getElementById('replyTo').value)">Добавить комментарий</button>
+    <div id="replyForm" class="reply-form">
+        <input type="text" id="name" placeholder="Представьтесь, пожалуйста">
+        <input type="hidden" id="replyTo">
+        <textarea id="comment" placeholder="Оставьте свой комментарий"></textarea>
+        <button onclick="addComment(document.getElementById('replyTo').value)">Отправить</button>
+    </div>
 </body>
 </html>
