@@ -1,4 +1,3 @@
-// addComment.js
 document.addEventListener("DOMContentLoaded", function() {
     const modal = document.getElementById("replyModal");
     const span = document.getElementsByClassName("close")[0];
@@ -34,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('replyTo').value = '';
             modal.style.display = "none";
             // Загрузить комментарии после добавления нового
-            loadComments();
+            loadComments(currentPage); // Ensure you load the correct page
         } catch (e) {
             console.error("Ошибка добавления комментария: ", e);
         }
