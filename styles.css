@@ -11,6 +11,14 @@ body {
     padding: 20px;
 }
 
+#newCommentForm {
+    padding: 20px;
+    background-color: #fff;
+    margin: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
 .comment {
     border-bottom: 1px solid #ccc;
     padding: 10px 20px;
@@ -56,6 +64,27 @@ body {
     margin-left: 20px;
     padding-left: 10px;
     border-left: 2px solid #ccc;
+}
+
+.page-button {
+    background-color: #f4f4f4;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    margin: 5px;
+}
+
+.page-button.active {
+    background-color: #007BFF;
+    color: white;
+}
+
+.page-button:hover {
+    background-color: #0056b3;
+    color: white;
 }
 
 /* Модальная форма */
