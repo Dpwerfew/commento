@@ -22,6 +22,7 @@ async function loadComments(page = 1) {
         const comments = {};
         querySnapshot.docs.slice(start, end).forEach((doc) => {
             const data = doc.data();
+            console.log(`Loaded comment: ${doc.id}`);
             const comment = document.createElement('div');
             comment.classList.add('comment');
             comment.setAttribute('data-id', doc.id);
