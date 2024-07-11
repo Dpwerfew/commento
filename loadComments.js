@@ -4,6 +4,7 @@ let currentPage = 1;
 let totalComments = 0;
 
 async function loadComments(page = 1) {
+    console.log(`Loading comments for page: ${page}`);
     currentPage = page;
     const commentsDiv = document.getElementById('comments');
     commentsDiv.innerHTML = '';
@@ -11,9 +12,12 @@ async function loadComments(page = 1) {
     try {
         const querySnapshot = await db.collection("comments").orderBy("timestamp", "asc").get();
         totalComments = querySnapshot.size;
+        console.log(`Total comments: ${totalComments}`);
         const totalPages = Math.ceil(totalComments / commentsPerPage);
+        console.log(`Total pages: ${totalPages}`);
         const start = (currentPage - 1) * commentsPerPage;
         const end = start + commentsPerPage;
+        console.log(`Loading comments from ${start} to ${end}`);
 
         const comments = {};
         querySnapshot.docs.slice(start, end).forEach((doc) => {
@@ -70,5 +74,6 @@ function renderPagination(totalPages) {
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
     loadComments();
 });
