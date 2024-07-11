@@ -12,6 +12,21 @@
 </head>
 <body>
     <div id="comments"></div>
+    <div id="pagination"></div>
+    <div id="newCommentForm">
+        <h3>Добавить новый отзыв</h3>
+        <form id="newCommentFormContent">
+            <div class="form-group">
+                <label for="newName">Представьтесь, пожалуйста:</label>
+                <input type="text" id="newName" placeholder="Ваше имя">
+            </div>
+            <div class="form-group">
+                <label for="newComment">Оставьте свой отзыв:</label>
+                <textarea id="newComment" placeholder="Ваш комментарий"></textarea>
+            </div>
+            <button type="button" onclick="addComment()">Отправить</button>
+        </form>
+    </div>
     <!-- Модальная форма -->
     <div id="replyModal" class="modal">
         <div class="modal-content">
