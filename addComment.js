@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('name').value = '';
             }
             // Загрузить комментарии после добавления нового
-            loadComments(currentPage); // Ensure you load the correct page
+            loadComments(); // Ensure you load the correct page
         } catch (e) {
             console.error("Ошибка добавления комментария: ", e);
         }
