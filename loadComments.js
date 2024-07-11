@@ -49,6 +49,7 @@ async function loadComments(page = 1) {
                 }
             } else {
                 commentsDiv.appendChild(comment.element);
+                console.log(`Added comment to DOM: ${id}`);
             }
         });
 
