@@ -67,4 +67,6 @@ function renderPagination(totalPages) {
     }
 }
 
-window.onload = () => loadComments();
+document.addEventListener('DOMContentLoaded', (event) => {
+    loadComments();
+});
