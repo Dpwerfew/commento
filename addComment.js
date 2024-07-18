@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function showReplyForm(parentId) {
         document.getElementById('replyTo').value = parentId;
         const modal = document.getElementById('replyModal');
-        modal.style.display = 'block';
+        modal.style.display = 'flex';
     }
 
     function closeReplyModal() {
