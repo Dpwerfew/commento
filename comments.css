@@ -18,7 +18,7 @@
     font-size: 0.9em;
 }
 
-.reply-button {
+.comment .reply-button {
     background-color: #007BFF !important; /* Синий цвет кнопки */
     color: white !important;
     border: none !important;
@@ -29,7 +29,7 @@
     margin-top: 10px !important;
 }
 
-.reply-button:hover {
+.comment .reply-button:hover {
     background-color: #0056b3 !important; /* Темно-синий цвет при наведении */
 }
 
