@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
             commentsContainer.innerHTML = '';
 
             const snapshot = await db.collection('comments').orderBy('timestamp').get();
+            console.log("Total comments: ", snapshot.size);
 
             const commentsMap = {};
 
@@ -25,16 +26,23 @@ document.addEventListener("DOMContentLoaded", function () {
                     element: commentElement,
                     parentId: comment.parentId
                 };
+                console.log("Processed comment: ", doc.id);
             });
 
             // Построение дерева комментариев
             Object.values(commentsMap).forEach(comment => {
                 if (comment.parentId) {
-                    const parentComment = commentsMap[comment.parentId];
-                    parentComment.element.querySelector('.replies').appendChild(comment.element);
+                    if (commentsMap[comment.parentId]) {
+                        const parentComment = commentsMap[comment.parentId];
+                        parentComment.element.querySelector('.replies').appendChild(comment.element);
+                    } else {
+                        // Если parentId отсутствует в commentsMap, добавляем комментарий в корень
+                        commentsContainer.appendChild(comment.element);
+                    }
                 } else {
                     commentsContainer.appendChild(comment.element);
                 }
+                console.log("Appended comment: ", comment);
             });
 
         } catch (e) {
