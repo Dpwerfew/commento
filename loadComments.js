@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 commentElement.innerHTML = `
                     <p><strong>${comment.name || 'Аноним'}</strong> ${new Date(comment.timestamp.toDate()).toLocaleString()}</p>
                     <p>${comment.text}</p>
-                    <button onclick="showReplyForm('${doc.id}')">Ответить</button>
+                    <button class="reply-button" onclick="showReplyForm('${doc.id}')">Ответить</button>
                     <div class="replies"></div>
                 `;
                 commentsMap[doc.id] = {
