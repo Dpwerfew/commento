@@ -44,3 +44,9 @@ body {
 .reply-button:hover {
     background-color: #0056b3;
 }
+.replies {
+    margin-left: 20px;
+    border-left: 2px solid #ccc;
+    padding-left: 10px;
+}
+
