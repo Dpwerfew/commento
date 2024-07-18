@@ -28,6 +28,16 @@
         <div id="admin-comments-container"></div>
     </div>
 
+    <!-- Модальное окно подтверждения удаления -->
+    <div id="confirm-delete-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Подтверждение удаления</h3>
+            <p>Вы уверены, что хотите удалить этот комментарий?</p>
+            <button id="confirm-delete-btn">Удалить</button>
+            <button id="cancel-delete-btn">Отмена</button>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
