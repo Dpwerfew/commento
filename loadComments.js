@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const snapshot = await db.collection('comments').orderBy('timestamp').get();
 
+            if (snapshot.empty) {
+                commentsContainer.innerHTML = '<p>Нет комментариев</p>';
+                return;
+            }
+
             snapshot.forEach(doc => {
                 const comment = doc.data();
                 const commentElement = document.createElement('div');
