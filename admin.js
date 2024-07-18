@@ -1,6 +1,30 @@
 document.addEventListener("DOMContentLoaded", function () {
     const db = firebase.firestore();
     const auth = firebase.auth();
+    let commentIdToDelete = null;
+
+    // Показывает модальное окно подтверждения удаления
+    function showConfirmDeleteModal(commentId) {
+        commentIdToDelete = commentId;
+        const modal = document.getElementById('confirm-delete-modal');
+        modal.style.display = 'flex';
+
+        document.getElementById('confirm-delete-btn').onclick = () => {
+            deleteComment(commentIdToDelete);
+            closeConfirmDeleteModal();
+        };
+
+        document.getElementById('cancel-delete-btn').onclick = () => {
+            closeConfirmDeleteModal();
+        };
+    }
+
+    // Закрывает модальное окно подтверждения удаления
+    function closeConfirmDeleteModal() {
+        const modal = document.getElementById('confirm-delete-modal');
+        modal.style.display = 'none';
+        commentIdToDelete = null;
+    }
 
     async function showAdminComments() {
         try {
@@ -18,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 commentElement.innerHTML = `
                     <p><strong>${comment.name || 'Аноним'}</strong> ${new Date(comment.timestamp.toDate()).toLocaleString()}</p>
                     <p>${comment.text}</p>
-                    <button onclick="deleteComment('${doc.id}')">Удалить</button>
+                    <button onclick="showConfirmDeleteModal('${doc.id}')">Удалить</button>
                     <div class="replies"></div>
                 `;
                 commentsMap[doc.id] = {
@@ -49,14 +73,12 @@ document.addEventListener("DOMContentLoaded", function () {
     window.showAdminComments = showAdminComments;
 
     async function deleteComment(commentId) {
-        if (confirm('Вы уверены, что хотите удалить этот комментарий?')) {
-            try {
-                await db.collection('comments').doc(commentId).delete();
-                alert('Комментарий удален');
-                showAdminComments(); // Обновить список комментариев после удаления
-            } catch (e) {
-                console.error("Ошибка удаления комментария: ", e);
-            }
+        try {
+            await db.collection('comments').doc(commentId).delete();
+            alert('Комментарий удален');
+            showAdminComments(); // Обновить список комментариев после удаления
+        } catch (e) {
+            console.error("Ошибка удаления комментария: ", e);
         }
     }
 
@@ -99,4 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('login-form').style.display = 'block';
         }
     });
+
+    window.showConfirmDeleteModal = showConfirmDeleteModal;
+    window.closeConfirmDeleteModal = closeConfirmDeleteModal;
 });
