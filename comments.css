@@ -1,15 +1,3 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-#comments-container {
-    padding: 20px;
-}
-
 .comment {
     border-bottom: 1px solid #ccc;
     padding: 10px 20px;
