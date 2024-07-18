@@ -1,6 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
     const db = firebase.firestore();
 
+    function showReplyForm(parentId) {
+        document.getElementById('replyTo').value = parentId;
+        const modal = document.getElementById('replyModal');
+        modal.style.display = 'block';
+    }
+
+    function closeReplyModal() {
+        const modal = document.getElementById('replyModal');
+        modal.style.display = 'none';
+    }
+
     async function addComment(parentId = null) {
         const commentInput = parentId ? document.getElementById('replyComment').value : document.getElementById('comment').value;
         const nameInput = parentId ? document.getElementById('replyName').value : document.getElementById('name').value || "Аноним";
@@ -49,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
         commentElement.innerHTML = `
             <p><strong>${comment.name || 'Аноним'}</strong> ${comment.timestamp.toLocaleString()}</p>
             <p>${comment.text}</p>
-            <button onclick="showReplyForm('${comment.id}')">Ответить</button>
+            <button class="reply-button" onclick="showReplyForm('${comment.id}')">Ответить</button>
             <div class="replies"></div>
         `;
 
@@ -65,4 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.addComment = addComment;
+    window.showReplyForm = showReplyForm;
+    window.closeReplyModal = closeReplyModal;
 });
