@@ -19,7 +19,7 @@
 }
 
 .reply-button {
-    background-color: #007BFF;
+    background-color: #007BFF; /* Синий цвет кнопки */
     color: white;
     border: none;
     padding: 5px 10px;
@@ -30,7 +30,7 @@
 }
 
 .reply-button:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Темно-синий цвет при наведении */
 }
 
 .replies {
