@@ -1,51 +1,67 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const modal = document.getElementById("replyModal");
-    const span = document.getElementsByClassName("close")[0];
-
-    // Закрыть модальное окно при клике на <span> (x)
-    span.onclick = function () {
-        modal.style.display = "none";
-    }
-
-    // Закрыть модальное окно при клике вне его
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
+    const db = firebase.firestore();
 
     async function addComment(parentId = null) {
         const commentInput = parentId ? document.getElementById('replyComment').value : document.getElementById('comment').value;
         const nameInput = parentId ? document.getElementById('replyName').value : document.getElementById('name').value || "Аноним";
+
         if (commentInput.trim() === "") {
             alert("Комментарий не может быть пустым");
             return;
         }
+
         try {
-            await db.collection("comments").add({
+            const newCommentRef = await db.collection("comments").add({
                 text: commentInput,
                 name: nameInput,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 parentId: parentId
             });
+
+            const newComment = {
+                text: commentInput,
+                name: nameInput,
+                timestamp: new Date(),
+                id: newCommentRef.id,
+                parentId: parentId
+            };
+
+            appendComment(newComment);
+
             if (parentId) {
                 document.getElementById('replyComment').value = '';
                 document.getElementById('replyName').value = '';
-                modal.style.display = "none";
+                closeReplyModal();
             } else {
                 document.getElementById('comment').value = '';
                 document.getElementById('name').value = '';
             }
-            // Загрузить комментарии после добавления нового
-            loadComments();
+
         } catch (e) {
             console.error("Ошибка добавления комментария: ", e);
         }
     }
 
-    window.showReplyForm = function (parentId) {
-        document.getElementById('replyTo').value = parentId;
-        modal.style.display = "block";
+    function appendComment(comment) {
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+        commentElement.setAttribute('data-id', comment.id);
+        commentElement.innerHTML = `
+            <p><strong>${comment.name || 'Аноним'}</strong> ${comment.timestamp.toLocaleString()}</p>
+            <p>${comment.text}</p>
+            <button onclick="showReplyForm('${comment.id}')">Ответить</button>
+            <div class="replies"></div>
+        `;
+
+        if (comment.parentId) {
+            const parentCommentElement = document.querySelector(`div[data-id='${comment.parentId}'] .replies`);
+            if (parentCommentElement) {
+                parentCommentElement.appendChild(commentElement);
+            }
+        } else {
+            const commentsContainer = document.getElementById('comments-container');
+            commentsContainer.appendChild(commentElement);
+        }
     }
 
     window.addComment = addComment;
