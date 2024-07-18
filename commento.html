@@ -25,10 +25,14 @@
             <span class="close">&times;</span>
             <h2>Добавить ответ</h2>
             <input type="hidden" id="replyTo">
-            <label for="replyName">Представьтесь, пожалуйста:</label>
-            <input type="text" id="replyName" placeholder="Ваше имя">
-            <label for="replyComment">Оставьте свой ответ:</label>
-            <textarea id="replyComment" placeholder="Ваш ответ"></textarea>
+            <div class="form-group">
+                <label for="replyName">Представьтесь, пожалуйста:</label>
+                <input type="text" id="replyName" placeholder="Ваше имя">
+            </div>
+            <div class="form-group">
+                <label for="replyComment">Оставьте свой ответ:</label>
+                <textarea id="replyComment" placeholder="Ваш ответ"></textarea>
+            </div>
             <button onclick="addComment(document.getElementById('replyTo').value)">Отправить</button>
         </div>
     </div>
