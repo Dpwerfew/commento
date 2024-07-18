@@ -1,81 +1,50 @@
-/* Модальная форма */
+/* Стили для модального окна */
 .modal {
-    display: none;
     position: fixed;
-    z-index: 1;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 
 .modal-content {
     background-color: #fff;
-    margin: 5% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 50%;
-    max-width: 500px; /* Максимальная ширина */
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 0.5s;
-    text-align: left; /* Выровнять текст по левому краю */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.modal-content h3 {
+    margin-top: 0;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-group input,
-.form-group textarea {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    font-size: 14px;
-}
-
-button {
-    background-color: #28a745;
+.modal-content button {
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 4px;
+    margin: 5px;
     transition: background-color 0.3s;
-    margin-top: 10px;
 }
 
-button:hover {
-    background-color: #218838;
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+
+#cancel-delete-btn {
+    background-color: #dc3545;
+}
+
+#cancel-delete-btn:hover {
+    background-color: #c82333;
 }
