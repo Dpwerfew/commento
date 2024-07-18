@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
             adminCommentsContainer.innerHTML = '';
 
             const snapshot = await db.collection('comments').orderBy('timestamp').get();
+            const commentsMap = {};
 
             snapshot.forEach(doc => {
                 const comment = doc.data();
@@ -18,8 +19,26 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p><strong>${comment.name || 'Аноним'}</strong> ${new Date(comment.timestamp.toDate()).toLocaleString()}</p>
                     <p>${comment.text}</p>
                     <button onclick="deleteComment('${doc.id}')">Удалить</button>
+                    <div class="replies"></div>
                 `;
-                adminCommentsContainer.appendChild(commentElement);
+                commentsMap[doc.id] = {
+                    element: commentElement,
+                    parentId: comment.parentId
+                };
+            });
+
+            // Построение дерева комментариев
+            Object.values(commentsMap).forEach(comment => {
+                if (comment.parentId) {
+                    if (commentsMap[comment.parentId]) {
+                        const parentComment = commentsMap[comment.parentId];
+                        parentComment.element.querySelector('.replies').appendChild(comment.element);
+                    } else {
+                        adminCommentsContainer.appendChild(comment.element);
+                    }
+                } else {
+                    adminCommentsContainer.appendChild(comment.element);
+                }
             });
 
         } catch (e) {
