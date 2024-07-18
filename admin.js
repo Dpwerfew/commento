@@ -75,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
     async function deleteComment(commentId) {
         try {
             await db.collection('comments').doc(commentId).delete();
-            showNotification('Комментарий удален');
             showAdminComments(); // Обновить список комментариев после удаления
         } catch (e) {
             console.error("Ошибка удаления комментария: ", e);
@@ -124,16 +123,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.showConfirmDeleteModal = showConfirmDeleteModal;
     window.closeConfirmDeleteModal = closeConfirmDeleteModal;
-
-    // Функция для показа уведомления
-    function showNotification(message) {
-        const notification = document.createElement('div');
-        notification.className = 'custom-notification';
-        notification.innerText = message;
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 3000);
-    }
 });
