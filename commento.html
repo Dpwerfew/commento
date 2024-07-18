@@ -2,13 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Комментарии</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-    <script src="firebaseConfig.js"></script>
-    <script src="loadComments.js"></script>
-    <script src="addComment.js"></script>
 </head>
 <body>
     <div id="comments-container"></div>
@@ -34,5 +30,11 @@
             <button onclick="addComment(document.getElementById('replyTo').value)">Отправить</button>
         </div>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="firebaseConfig.js"></script>
+    <script src="loadComments.js"></script>
+    <script src="addComment.js"></script>
 </body>
 </html>
