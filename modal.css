@@ -5,7 +5,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.5);
-    display: none; /* по умолчанию скрыто */
+    display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
@@ -18,26 +18,48 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     max-width: 500px;
     width: 100%;
-    text-align: center;
+    text-align: left;
+    position: relative;
 }
 
-.modal-content h3 {
+.modal-content h2 {
     margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.modal-content .form-group {
+    margin-bottom: 15px;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.modal-content input,
+.modal-content textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
 }
 
 .modal-content button {
-    background-color: #007bff;
+    background-color: #28a745;
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 4px;
-    margin: 5px;
     transition: background-color 0.3s;
+    margin-top: 10px;
 }
 
 .modal-content button:hover {
-    background-color: #0056b3;
+    background-color: #218838;
 }
 
 .close {
@@ -46,12 +68,4 @@
     right: 10px;
     font-size: 1.5em;
     cursor: pointer;
-}
-
-#cancel-delete-btn {
-    background-color: #dc3545;
-}
-
-#cancel-delete-btn:hover {
-    background-color: #c82333;
 }
