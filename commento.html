@@ -32,4 +32,16 @@
             </div>
             <div class="form-group">
                 <label for="replyComment">Оставьте свой ответ:</label>
-                <textarea id="replyComment" placeholder="
+                <textarea id="replyComment" placeholder="Ваш ответ"></textarea>
+            </div>
+            <button onclick="addComment(document.getElementById('replyTo').value)">Отправить</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="firebaseConfig.js"></script>
+    <script src="loadComments.js"></script>
+    <script src="addComment.js"></script>
+</body>
+</html>
