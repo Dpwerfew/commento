@@ -8,22 +8,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const snapshot = await db.collection('comments').orderBy('timestamp').get();
 
-            if (snapshot.empty) {
-                commentsContainer.innerHTML = '<p>Нет комментариев</p>';
-                return;
-            }
+            const commentsMap = {};
 
             snapshot.forEach(doc => {
                 const comment = doc.data();
                 const commentElement = document.createElement('div');
                 commentElement.classList.add('comment');
+                commentElement.setAttribute('data-id', doc.id);
                 commentElement.innerHTML = `
                     <p><strong>${comment.name || 'Аноним'}</strong> ${new Date(comment.timestamp.toDate()).toLocaleString()}</p>
                     <p>${comment.text}</p>
                     <button onclick="showReplyForm('${doc.id}')">Ответить</button>
+                    <div class="replies"></div>
                 `;
-                commentsContainer.appendChild(commentElement);
+                commentsMap[doc.id] = {
+                    element: commentElement,
+                    parentId: comment.parentId
+                };
             });
+
+            // Построение дерева комментариев
+            Object.values(commentsMap).forEach(comment => {
+                if (comment.parentId) {
+                    const parentComment = commentsMap[comment.parentId];
+                    parentComment.element.querySelector('.replies').appendChild(comment.element);
+                } else {
+                    commentsContainer.appendChild(comment.element);
+                }
+            });
+
         } catch (e) {
             console.error("Ошибка загрузки комментариев: ", e);
         }
