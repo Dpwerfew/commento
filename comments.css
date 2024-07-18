@@ -19,18 +19,18 @@
 }
 
 .reply-button {
-    background-color: #007BFF; /* Синий цвет кнопки */
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-    margin-top: 10px;
+    background-color: #007BFF !important; /* Синий цвет кнопки */
+    color: white !important;
+    border: none !important;
+    padding: 5px 10px !important;
+    cursor: pointer !important;
+    border-radius: 4px !important;
+    transition: background-color 0.3s !important;
+    margin-top: 10px !important;
 }
 
 .reply-button:hover {
-    background-color: #0056b3; /* Темно-синий цвет при наведении */
+    background-color: #0056b3 !important; /* Темно-синий цвет при наведении */
 }
 
 .replies {
