@@ -60,9 +60,13 @@ document.addEventListener("DOMContentLoaded", function () {
         commentElement.innerHTML = `
             <p><strong>${comment.name || 'Аноним'}</strong> ${comment.timestamp.toLocaleString()}</p>
             <p>${comment.text}</p>
-            <button class="reply-button reply-button-custom" onclick="showReplyForm('${comment.id}')">Ответить</button>
+            <button class="reply-button" onclick="showReplyForm('${comment.id}')">Ответить</button>
             <div class="replies"></div>
         `;
+
+        // Применяем стили для новой кнопки
+        const replyButton = commentElement.querySelector('.reply-button');
+        replyButton.classList.add('reply-button-custom');
 
         if (comment.parentId) {
             const parentCommentElement = document.querySelector(`div[data-id='${comment.parentId}'] .replies`);
