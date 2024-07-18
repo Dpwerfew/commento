@@ -64,6 +64,24 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="replies"></div>
         `;
 
+        // Применяем стили для новой кнопки
+        const replyButton = commentElement.querySelector('.reply-button');
+        replyButton.style.backgroundColor = '#007BFF';
+        replyButton.style.color = 'white';
+        replyButton.style.border = 'none';
+        replyButton.style.padding = '5px 10px';
+        replyButton.style.cursor = 'pointer';
+        replyButton.style.borderRadius = '4px';
+        replyButton.style.transition = 'background-color 0.3s';
+        replyButton.style.marginTop = '10px';
+
+        replyButton.addEventListener('mouseover', function() {
+            this.style.backgroundColor = '#0056b3';
+        });
+        replyButton.addEventListener('mouseout', function() {
+            this.style.backgroundColor = '#007BFF';
+        });
+
         if (comment.parentId) {
             const parentCommentElement = document.querySelector(`div[data-id='${comment.parentId}'] .replies`);
             if (parentCommentElement) {
