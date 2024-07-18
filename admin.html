@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админская панель</title>
+    <link rel="stylesheet" href="comments.css">
+    <link rel="stylesheet" href="modal.css">
+    <link rel="stylesheet" href="form.css">
+</head>
+<body>
+    <!-- Форма входа для админов -->
+    <div id="login-form">
+        <h2>Вход для администраторов</h2>
+        <label for="admin-email">Email:</label>
+        <input type="email" id="admin-email" placeholder="Введите email">
+        <label for="admin-password">Пароль:</label>
+        <input type="password" id="admin-password" placeholder="Введите пароль">
+        <button onclick="adminLogin()">Войти</button>
+        <div id="login-error" style="color: red;"></div>
+    </div>
+
+    <!-- Админская панель -->
+    <div id="admin-panel" class="admin-panel" style="display: none;">
+        <h2>Админская панель</h2>
+        <button onclick="showAdminComments()">Показать все комментарии</button>
+        <button onclick="adminLogout()">Выйти</button>
+        <div id="admin-comments-container"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="firebaseConfig.js"></script>
+    <script src="admin.js"></script> <!-- Подключим новый скрипт для админки -->
+</body>
+</html>
