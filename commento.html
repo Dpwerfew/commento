@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="comments.css">
     <link rel="stylesheet" href="modal.css">
     <link rel="stylesheet" href="form.css">
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LdyaxMqAAAAAAxJljB3lWtfuF4hX7qhoexSMmc"></script>
 </head>
 <body>
     <div id="comments-container"></div>
@@ -34,7 +35,8 @@
                 <label for="replyComment">Оставьте свой ответ:</label>
                 <textarea id="replyComment" placeholder="Ваш ответ"></textarea>
             </div>
-            <button onclick="addComment(document.getElementById('replyTo').value)">Отправить</button>
+            <div class="g-recaptcha" data-sitekey="6LdyaxMqAAAAAAxJljB3lWtfuF4hX7qhoexSMmc"></div>
+            <button onclick="onSubmitReplyForm()">Отправить</button>
         </div>
     </div>
 
