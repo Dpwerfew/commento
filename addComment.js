@@ -21,12 +21,19 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        const recaptchaResponse = await grecaptcha.enterprise.execute('6LdyaxMqAAAAAAxJljB3lWtfuF4hX7qhoexSMmc', {action: 'submit'});
+        if (!recaptchaResponse) {
+            alert("Пожалуйста, подтвердите, что вы не робот.");
+            return;
+        }
+
         try {
             const newCommentRef = await db.collection("comments").add({
                 text: commentInput,
                 name: nameInput,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                parentId: parentId
+                parentId: parentId,
+                recaptcha: recaptchaResponse
             });
 
             const newComment = {
@@ -47,6 +54,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('comment').value = '';
                 document.getElementById('name').value = '';
             }
+
+            // Сброс reCAPTCHA после успешной отправки
+            grecaptcha.enterprise.reset();
 
         } catch (e) {
             console.error("Ошибка добавления комментария: ", e);
