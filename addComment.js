@@ -102,7 +102,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    async function onSubmitReplyForm() {
+        grecaptcha.enterprise.ready(async () => {
+            const token = await grecaptcha.enterprise.execute('6LdyaxMqAAAAAAxJljB3lWtfuF4hX7qhoexSMmc', {action: 'submit'});
+            addComment(document.getElementById('replyTo').value, token);
+        });
+    }
+
     window.addComment = addComment;
     window.showReplyForm = showReplyForm;
     window.closeReplyModal = closeReplyModal;
+    window.onSubmitReplyForm = onSubmitReplyForm;
 });
